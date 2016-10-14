@@ -1,0 +1,6 @@
+framework module GVRouter {
+  umbrella header "GVRouter-umbrella.h"
+
+  export *
+  module * { export * }
+}

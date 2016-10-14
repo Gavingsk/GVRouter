@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'GVRouter_Example' do
+  pod 'GVRouter', :path => '../'
+
+  target 'GVRouter_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
