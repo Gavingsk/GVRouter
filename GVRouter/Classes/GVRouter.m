@@ -27,7 +27,6 @@
     });
     return router;
 }
-
 - (void)map:(NSString *)route toBlock:(GVRouterBlock)block
 {
     NSMutableDictionary *subRoutes = [self subRoutesToRoute:route];
@@ -111,7 +110,7 @@
     
     params[@"route"] = [self stringFromFilterAppUrlScheme:route];
     
-    NSMutableDictionary *subRoutes = self.routes;
+    NSDictionary *subRoutes = self.routes;
     NSArray *pathComponents = [self pathComponentsFromRoute:params[@"route"]];
     for (NSString *pathComponent in pathComponents) {
         BOOL found = NO;
@@ -152,9 +151,6 @@
     if (class_isMetaClass(object_getClass(class))) {
         if ([class isSubclassOfClass:[UIViewController class]]) {
             params[@"controller_class"] = subRoutes[@"_"];
-            if (subRoutes[@"#"]) {
-                params[@"option"] = subRoutes[@"#"];
-            }
         } else {
             return nil;
         }
@@ -163,7 +159,9 @@
             params[@"block"] = [subRoutes[@"_"] copy];
         }
     }
-    
+    if (subRoutes[@"#"]) {
+        params[@"option"] = subRoutes[@"#"];
+    }
     return [NSDictionary dictionaryWithDictionary:params];
 }
 
@@ -223,7 +221,7 @@
     NSArray *pathComponents = [self pathComponentsFromRoute:route];
     
     NSInteger index = 0;
-    NSMutableDictionary *subRoutes = self.routes;
+    NSMutableDictionary *subRoutes = (NSMutableDictionary*)self.routes;
     
     while (index < pathComponents.count) {
         NSString *pathComponent = pathComponents[index];
@@ -242,7 +240,7 @@
     NSMutableDictionary *subRoutes = [self subRoutesToRoute:route];
     
     subRoutes[@"_"] = controllerClass;
-
+    
 }
 
 - (GVRouteType)canRoute:(NSString *)route
